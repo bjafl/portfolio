@@ -1,0 +1,15 @@
+---
+import FeaturedProjects from '../../components/FeaturedProjects.astro';
+import Hero from '../../components/Hero.astro';
+import SkillsOverview from '../../components/SkillsOverview.astro';
+import Timeline from '../../components/Timeline.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n/ui';
+const locale = 'en';
+---
+<BaseLayout locale={locale} title={t(locale, 'hero.title')} description={t(locale, 'hero.subtitle')}>
+  <Hero locale={locale} />
+  <Timeline locale={locale} />
+  <FeaturedProjects locale={locale} />
+  <SkillsOverview locale={locale} />
+</BaseLayout>

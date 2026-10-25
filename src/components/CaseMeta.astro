@@ -1,0 +1,42 @@
+---
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/routes';
+import { formatPeriod } from '../lib/project-model';
+import type { ProjectEntry } from '../lib/projects';
+import AreaTag from './AreaTag.astro';
+import StatusBadge from './StatusBadge.astro';
+interface Props { project: ProjectEntry; locale: Locale }
+const { project, locale } = Astro.props;
+const { status, context, period, areas, stack, repo, links } = project.data;
+const periodText = formatPeriod(period, locale, t(locale, 'case.ongoing'));
+---
+<div data-case-meta class="mb-6 rounded-[var(--radius-card)] border border-border bg-surface p-5">
+  <div class="mb-4 flex flex-wrap items-center gap-2">
+    <StatusBadge status={status} locale={locale} />
+    {areas.map((a) => <AreaTag area={a} locale={locale} />)}
+  </div>
+  <dl class="grid gap-x-6 gap-y-3 sm:grid-cols-[max-content_1fr]">
+    <dt class="font-semibold">{t(locale, 'case.context')}</dt>
+    <dd>{t(locale, `context.${context}`)}</dd>
+    <dt class="font-semibold">{t(locale, 'case.period')}</dt>
+    <dd>{periodText}</dd>
+    {stack.length > 0 && (
+      <>
+        <dt class="font-semibold">{t(locale, 'case.stack')}</dt>
+        <dd>{stack.join(', ')}</dd>
+      </>
+    )}
+    <dt class="font-semibold">{t(locale, 'case.code')}</dt>
+    <dd>{repo ? <a href={repo}>{repo.replace(/^https?:\/\//, '')}</a> : t(locale, 'case.private')}</dd>
+    {links && links.length > 0 && (
+      <>
+        <dt class="font-semibold">{t(locale, 'case.links')}</dt>
+        <dd>
+          <ul class="flex flex-wrap gap-x-4">
+            {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          </ul>
+        </dd>
+      </>
+    )}
+  </dl>
+</div>

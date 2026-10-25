@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 450" width="480" height="450" role="img" aria-labelledby="homely-arch-title homely-arch-desc" color="#2e2620" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="homely-arch-title">homely – high-level architecture</title>
+  <desc id="homely-arch-desc">The Homely cloud API is reached over two paths: a REST client that fetches the full state and acts as fallback, and a Socket.IO client per location that pushes device and alarm events with reconnection and backoff. Both feed a data update coordinator that merges push events into a typed state model and adjusts the polling interval. Home Assistant entities, which are binary sensors, sensors and a refresh button, read from the coordinator. The unofficial OpenAPI documentation is a separate repository that describes the same API.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- Self-contained panel so the image reads the same in light and dark site themes. -->
+  <rect x="1" y="1" width="478" height="448" rx="16" fill="#efe5d3" stroke="#8f7f6a" stroke-width="2"/>
+
+  <g stroke="currentColor" stroke-width="1.5" fill="currentColor" text-anchor="middle">
+    <!-- Cloud -->
+    <rect x="16" y="20" width="448" height="48" rx="12" fill="#cfddeb"/>
+    <text x="240" y="50" font-size="17" font-weight="700" stroke="none">Homely cloud API (REST + Socket.IO)</text>
+
+    <line x1="124" y1="68" x2="124" y2="102" marker-end="url(#arrow)" fill="none"/>
+    <line x1="356" y1="102" x2="356" y2="68" marker-end="url(#arrow)" fill="none"/>
+
+    <!-- Clients -->
+    <rect x="16" y="104" width="216" height="76" rx="12" fill="#f6d5bc"/>
+    <text x="124" y="128" font-size="17" font-weight="700" stroke="none">REST client</text>
+    <text x="124" y="150" font-size="15" stroke="none">full state · fallback</text>
+    <text x="124" y="170" font-size="15" stroke="none">token refresh</text>
+    <rect x="248" y="104" width="216" height="76" rx="12" fill="#f6d5bc"/>
+    <text x="356" y="128" font-size="17" font-weight="700" stroke="none">Socket.IO client</text>
+    <text x="356" y="150" font-size="15" stroke="none">one per location</text>
+    <text x="356" y="170" font-size="15" stroke="none">reconnect with backoff</text>
+
+    <line x1="124" y1="180" x2="124" y2="214" marker-end="url(#arrow)" fill="none"/>
+    <line x1="356" y1="180" x2="356" y2="214" marker-end="url(#arrow)" fill="none"/>
+
+    <!-- Coordinator -->
+    <rect x="16" y="216" width="448" height="80" rx="12" fill="#d3e2cb"/>
+    <text x="240" y="242" font-size="17" font-weight="700" stroke="none">DataUpdateCoordinator</text>
+    <text x="240" y="264" font-size="15" stroke="none">typed state model (pydantic) · push events merged in</text>
+    <text x="240" y="284" font-size="15" stroke="none">polling 30 s – 30 min · rate-limit pause</text>
+
+    <line x1="240" y1="296" x2="240" y2="324" marker-end="url(#arrow)" fill="none"/>
+
+    <!-- Entities -->
+    <rect x="16" y="326" width="448" height="62" rx="12" fill="none"/>
+    <text x="240" y="352" font-size="17" font-weight="700" stroke="none">Home Assistant entities</text>
+    <text x="240" y="374" font-size="15" stroke="none">binary sensors · sensors · refresh button</text>
+
+    <!-- Docs -->
+    <rect x="16" y="398" width="448" height="38" rx="12" fill="none" stroke-dasharray="6 4"/>
+    <text x="240" y="423" font-size="15" stroke="none">homely-api-docs: OpenAPI spec of the same API</text>
+  </g>
+</svg>

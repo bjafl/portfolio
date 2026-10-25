@@ -1,0 +1,8 @@
+---
+import type { Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+interface Props { status: 'active' | 'in-use' | 'prototype' | 'archived'; locale: Locale }
+const { status, locale } = Astro.props;
+const fill = { active: 'bg-sage', 'in-use': 'bg-blue', prototype: 'bg-peach', archived: 'bg-surface border border-border' }[status];
+---
+<span class={`inline-block rounded-full px-3 py-0.5 text-sm font-semibold text-ink ${fill}`}>{t(locale, `status.${status}`)}</span>

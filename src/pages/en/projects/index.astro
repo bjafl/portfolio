@@ -1,0 +1,13 @@
+---
+import ProjectFilter from '../../../components/ProjectFilter.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { t } from '../../../i18n/ui';
+import { getProjects } from '../../../lib/projects';
+const locale = 'en';
+const projects = await getProjects(locale);
+---
+<BaseLayout locale={locale} title={t(locale, 'nav.projects')} description={t(locale, 'projects.intro')}>
+  <h1 class="mb-2 text-4xl font-bold">{t(locale, 'nav.projects')}</h1>
+  <p class="mb-8 max-w-prose">{t(locale, 'projects.intro')}</p>
+  <ProjectFilter projects={projects} locale={locale} />
+</BaseLayout>

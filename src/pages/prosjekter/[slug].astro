@@ -1,0 +1,10 @@
+---
+import CaseArticle from '../../components/CaseArticle.astro';
+import { getProjects, slugOf } from '../../lib/projects';
+export async function getStaticPaths() {
+  const projects = await getProjects('nb');
+  return projects.map((project) => ({ params: { slug: slugOf(project.id) }, props: { project } }));
+}
+const { project } = Astro.props;
+---
+<CaseArticle project={project} locale="nb" />

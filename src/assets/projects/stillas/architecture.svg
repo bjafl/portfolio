@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 560" width="480" height="560" role="img" aria-labelledby="stillas-arch-title stillas-arch-desc" color="#2e2620" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="stillas-arch-title">Stillas – high-level architecture</title>
+  <desc id="stillas-arch-desc">Staff web app and participant PWA go through a Caddy reverse proxy to a Fastify API. The API and a background sync worker use PostgreSQL, Valkey and S3-compatible storage. GitHub Actions builds, scans and signs images, pushes them to GHCR by commit SHA, and a deploy webhook verifies and pulls them. A separate monitoring stack collects logs, metrics and health checks.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- Self-contained panel so the image reads the same in light and dark site themes. -->
+  <rect x="1" y="1" width="478" height="558" rx="16" fill="#efe5d3" stroke="#8f7f6a" stroke-width="2"/>
+
+  <g stroke="currentColor" stroke-width="1.5" fill="currentColor" text-anchor="middle">
+    <!-- Clients -->
+    <rect x="16" y="20" width="216" height="56" rx="12" fill="#f6d5bc"/>
+    <text x="124" y="44" font-size="17" font-weight="700" stroke="none">Staff web app</text>
+    <text x="124" y="64" font-size="14" stroke="none">React SPA</text>
+    <rect x="248" y="20" width="216" height="56" rx="12" fill="#f6d5bc"/>
+    <text x="356" y="44" font-size="17" font-weight="700" stroke="none">Participant app</text>
+    <text x="356" y="64" font-size="14" stroke="none">PWA, own auth model</text>
+
+    <line x1="124" y1="76" x2="124" y2="108" marker-end="url(#arrow)" fill="none"/>
+    <line x1="356" y1="76" x2="356" y2="108" marker-end="url(#arrow)" fill="none"/>
+
+    <!-- Reverse proxy -->
+    <rect x="16" y="110" width="448" height="48" rx="12" fill="none"/>
+    <text x="240" y="140" font-size="17" font-weight="700" stroke="none">Caddy reverse proxy · TLS</text>
+
+    <line x1="124" y1="158" x2="124" y2="190" marker-end="url(#arrow)" fill="none"/>
+
+    <!-- App services -->
+    <rect x="16" y="192" width="216" height="56" rx="12" fill="#cfddeb"/>
+    <text x="124" y="216" font-size="17" font-weight="700" stroke="none">API</text>
+    <text x="124" y="236" font-size="14" stroke="none">Fastify · REST · SSE</text>
+    <rect x="248" y="192" width="216" height="56" rx="12" fill="#cfddeb"/>
+    <text x="356" y="216" font-size="17" font-weight="700" stroke="none">Sync worker</text>
+    <text x="356" y="236" font-size="14" stroke="none">pg-boss · scheduled jobs</text>
+    <text x="428" y="274" font-size="15" font-style="italic" text-anchor="end" stroke="none">NAV · BRREG · postal codes</text>
+
+    <line x1="124" y1="248" x2="124" y2="290" marker-end="url(#arrow)" fill="none"/>
+    <line x1="444" y1="248" x2="444" y2="290" marker-end="url(#arrow)" fill="none"/>
+
+    <!-- Data -->
+    <rect x="16" y="292" width="448" height="56" rx="12" fill="#d3e2cb"/>
+    <text x="240" y="316" font-size="17" font-weight="700" stroke="none">PostgreSQL · Valkey · S3-compatible storage</text>
+    <text x="240" y="336" font-size="14" stroke="none">data · sessions and cache · files</text>
+
+    <!-- Delivery -->
+    <line x1="16" y1="368" x2="464" y2="368" stroke-dasharray="4 4" fill="none"/>
+    <text x="240" y="390" font-size="15" font-style="italic" stroke="none">Delivery (separate deploy repo)</text>
+
+    <rect x="16" y="400" width="136" height="56" rx="12" fill="none"/>
+    <text x="84" y="424" font-size="16" font-weight="700" stroke="none">GitHub Actions</text>
+    <text x="84" y="444" font-size="15" stroke="none">build · scan · sign</text>
+    <line x1="152" y1="428" x2="174" y2="428" marker-end="url(#arrow)" fill="none"/>
+    <rect x="176" y="400" width="128" height="56" rx="12" fill="none"/>
+    <text x="240" y="424" font-size="16" font-weight="700" stroke="none">GHCR</text>
+    <text x="240" y="444" font-size="15" stroke="none">images by SHA</text>
+    <line x1="304" y1="428" x2="326" y2="428" marker-end="url(#arrow)" fill="none"/>
+    <rect x="328" y="400" width="136" height="56" rx="12" fill="none"/>
+    <text x="396" y="424" font-size="16" font-weight="700" stroke="none">Deploy hook</text>
+    <text x="396" y="444" font-size="15" stroke="none">verify · pull</text>
+
+    <!-- Monitoring -->
+    <rect x="16" y="480" width="448" height="60" rx="12" fill="none" stroke-dasharray="6 4"/>
+    <text x="240" y="504" font-size="16" font-weight="700" stroke="none">Monitoring (runs apart from the app)</text>
+    <text x="240" y="526" font-size="14" stroke="none">Loki · Prometheus · Grafana · Gatus</text>
+  </g>
+</svg>

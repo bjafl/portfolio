@@ -1,0 +1,32 @@
+---
+import { getEntry } from 'astro:content';
+import { localizePath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { getProjects, hasProject, slugOf } from '../lib/projects';
+import { visibleTimelineProjects } from '../lib/project-model';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const entries = (await getEntry('timeline', locale))?.data.entries ?? [];
+const titles = new Map((await getProjects(locale)).map((p) => [slugOf(p.id), p.data.title]));
+---
+<section aria-labelledby="timeline-heading" class="mt-14">
+  <h2 id="timeline-heading" class="text-2xl font-bold">{t(locale, 'section.timeline')}</h2>
+  <ol class="mt-5 space-y-4 border-l-2 border-border pl-5">
+    {entries.map((e) => {
+      const links = visibleTimelineProjects(e.projects, (s) => hasProject(s, locale));
+      return (
+        <li class="relative">
+          <span class="absolute -left-[1.6rem] top-2 h-3 w-3 rounded-full bg-peach ring-2 ring-border" aria-hidden="true"></span>
+          <p class="font-display text-lg font-bold">{e.year}</p>
+          <h3 class="font-bold">{e.title}</h3>
+          <p>{e.text}</p>
+          {links.length > 0 && (
+            <ul class="mt-1 flex flex-wrap gap-x-4">
+              {links.map((s) => <li><a href={localizePath('project', locale, s)}>{titles.get(s) ?? s}</a></li>)}
+            </ul>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</section>

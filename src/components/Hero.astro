@@ -1,0 +1,11 @@
+---
+import { localizePath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+---
+<section class="rounded-[var(--radius-card)] bg-peach px-6 py-10 text-ink sm:px-10 sm:py-14">
+  <h1 class="text-3xl font-bold sm:text-5xl">{t(locale, 'hero.title')}</h1>
+  <p class="mt-4 max-w-2xl text-lg sm:text-xl">{t(locale, 'hero.subtitle')}</p>
+  <a href={localizePath('projects', locale)} class="mt-6 inline-block rounded-full bg-surface px-5 py-2 font-semibold text-ink no-underline">{t(locale, 'hero.cta')}</a>
+</section>

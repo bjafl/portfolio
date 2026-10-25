@@ -1,0 +1,18 @@
+---
+import { localizePath, type Locale } from '../i18n/routes';
+import { slugOf, type ProjectEntry } from '../lib/projects';
+import AreaTag from './AreaTag.astro';
+import StatusBadge from './StatusBadge.astro';
+interface Props { project: ProjectEntry; locale: Locale }
+const { project, locale } = Astro.props;
+const { title, summary, status, areas } = project.data;
+const href = localizePath('project', locale, slugOf(project.id));
+---
+<article class="flex flex-col gap-3 rounded-[var(--radius-card)] border border-border bg-surface p-5">
+  <h3 class="text-xl font-bold"><a href={href}>{title}</a></h3>
+  <p>{summary}</p>
+  <div class="mt-auto flex flex-wrap items-center gap-2">
+    <StatusBadge status={status} locale={locale} />
+    {areas.map((a) => <AreaTag area={a} locale={locale} />)}
+  </div>
+</article>

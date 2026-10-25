@@ -1,0 +1,20 @@
+---
+import { contactValue, site } from '../config/site';
+import type { Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const email = contactValue(site.email);
+const linkedin = contactValue(site.linkedin);
+---
+<footer class="mt-16 border-t border-border bg-surface">
+  <div class="mx-auto max-w-5xl px-4 py-8">
+    <h2 class="text-xl font-bold">{t(locale, 'footer.contact')}</h2>
+    <ul class="mt-3 flex flex-wrap gap-3">
+      <li><a href={site.github} rel="me" class="inline-block rounded-full bg-sage px-4 py-2 font-semibold text-ink no-underline">{t(locale, 'footer.github')}</a></li>
+      {email && <li><a href={`mailto:${email}`} class="inline-block rounded-full bg-peach px-4 py-2 font-semibold text-ink no-underline">{t(locale, 'footer.email')}</a></li>}
+      {linkedin && <li><a href={linkedin} rel="me" class="inline-block rounded-full bg-blue px-4 py-2 font-semibold text-ink no-underline">{t(locale, 'footer.linkedin')}</a></li>}
+    </ul>
+    <p class="mt-6 text-sm text-muted">&copy; {new Date().getFullYear()} {site.name}</p>
+  </div>
+</footer>

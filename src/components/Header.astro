@@ -1,0 +1,25 @@
+---
+import { site } from '../config/site';
+import { localizePath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import LangSwitch from './LangSwitch.astro';
+import ThemeToggle from './ThemeToggle.astro';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const linkClass = 'rounded-full px-3 py-2 font-semibold text-text no-underline hover:bg-peach hover:text-ink';
+---
+<header class="border-b border-border bg-surface">
+  <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-3">
+    <a href={localizePath('home', locale)} class="font-display text-lg font-bold text-text no-underline">{site.name}</a>
+    <div class="flex flex-wrap items-center gap-2">
+      <nav aria-label={t(locale, 'nav.label')}>
+        <ul class="flex gap-1">
+          <li><a href={localizePath('projects', locale)} class={linkClass}>{t(locale, 'nav.projects')}</a></li>
+          <li><a href={localizePath('about', locale)} class={linkClass}>{t(locale, 'nav.about')}</a></li>
+        </ul>
+      </nav>
+      <LangSwitch locale={locale} />
+      <ThemeToggle locale={locale} />
+    </div>
+  </div>
+</header>

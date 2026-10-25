@@ -1,0 +1,25 @@
+entries:
+  - year: "Før 2023"
+    title: Excel, VBA og små verktøy i jobben
+    text: Det startet med regneark og makroer som sparte tid for meg selv og kollegene mine.
+  - year: "2020–2021"
+    title: Hobbyprosjekter på si
+    text: Ved siden av jobben laget jeg en C#-konverter fra iCloud-sikkerhetskopi til Evernote-filer (.enex) og rettet en feil i den åpne notatappen Nomie 5, knyttet til lagring av CouchDB-oppsett.
+  - year: "2023–2024"
+    title: Skript og programmer for produksjonen, og kursmateriell
+    text: Fra desember 2023 laget jeg skilt-script (Python), og fra januar 2024 SkiltMeny (C# og PowerShell), til arbeidshverdagen. Jeg skrev også kursmateriell i Python og programmering, PY-101 og PROG-101.
+  - year: "2024–2025"
+    title: IT-ingeniørstudier ved UiT, ved siden av full jobb
+    text: Fra høsten 2024 tok jeg emner i maskinlæring, datastrukturer, Linux og videregående programmering, til sammen 60 studiepoeng i bachelor i IT-ingeniørfag.
+  - year: "2025"
+    title: Nettleserutvidelse, dokumentkonvertering og åpen kildekode
+    text: Jeg bygde en Chrome-utvidelse for fagsystemet PlusOffice, som vi bruker i SPS, med egen release-pipeline. Jeg lagde også verktøy for å konvertere dokumenter mellom docx, HTML og PDF, en Home Assistant-integrasjon for Homely-alarmen og den første versjonen av e2ee-file-drop for ende-til-ende-kryptert fildeling.
+    projects: [plusoffice-extension, homely]
+  - year: "2026"
+    title: Stillas, fullstack med egen drift
+    text: Stillas er en fullstack-plattform jeg har utviklet med både applikasjon, deploy og monitorering. Her møtes kunnskapen om virksomheten og det jeg har lært om arkitektur og drift.
+    projects: [stillas]
+  - year: "2026"
+    title: Flere verktøy, fra AI-infrastruktur til interaktivt UI
+    text: Samme år kom tiny-metamcp og andre MCP-verktøy, tiptap-boost, en Tripletex-integrasjon, e2ee-drop som en full omskriving av prototypen, wheel-planner og prodimg.
+    projects: [tiny-metamcp, e2ee-drop, wheel-planner]

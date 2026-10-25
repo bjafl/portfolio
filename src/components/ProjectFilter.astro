@@ -1,0 +1,66 @@
+---
+import type { Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { AREAS, areaLabel } from '../lib/areas';
+import type { ProjectEntry } from '../lib/projects';
+import ProjectCard from './ProjectCard.astro';
+interface Props { projects: ProjectEntry[]; locale: Locale }
+const { projects, locale } = Astro.props;
+const btn =
+  'inline-flex min-h-11 items-center gap-1 rounded-full border-2 border-border bg-surface px-4 text-sm font-semibold text-text aria-pressed:border-text aria-pressed:bg-peach aria-pressed:text-ink aria-pressed:before:content-["✓"_/_""]';
+---
+<div data-filter class="hidden [.js_&]:block">
+  <div role="group" aria-label={t(locale, 'filter.label')} class="mb-4 flex flex-wrap gap-2">
+    <button type="button" class={btn} data-area="" aria-pressed="true">{t(locale, 'filter.all')}</button>
+    {AREAS.map((a) => <button type="button" class={btn} data-area={a} aria-pressed="false">{areaLabel(a, locale)}</button>)}
+  </div>
+  <p role="status" class="mb-6 text-sm" data-filter-status data-label={t(locale, 'filter.showing')}>
+    {t(locale, 'filter.showing')} {projects.length}
+  </p>
+</div>
+<h2 class="sr-only">{t(locale, 'nav.projects')}</h2>
+<ul class="grid list-none gap-6 p-0 sm:grid-cols-2" data-project-list>
+  {projects.map((p) => (
+    <li data-areas={p.data.areas.join(' ')} class="flex flex-col [&>article]:flex-1">
+      <ProjectCard project={p} locale={locale} />
+    </li>
+  ))}
+</ul>
+<script is:inline>
+  // Runs right after the list so items are filtered before first paint (no layout shift on deep links).
+  (function () {
+    var root = document.querySelector('[data-filter]');
+    if (!root) return;
+    var buttons = Array.prototype.slice.call(root.querySelectorAll('button[data-area]'));
+    var items = Array.prototype.slice.call(document.querySelectorAll('[data-project-list] > li'));
+    var status = root.querySelector('[data-filter-status]');
+    function apply(area) {
+      var n = 0;
+      items.forEach(function (li) {
+        var show = !area || (li.dataset.areas || '').split(' ').indexOf(area) !== -1;
+        li.hidden = !show;
+        if (show) n++;
+      });
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.area === area)); });
+      status.textContent = status.dataset.label + ' ' + n;
+    }
+    var param = new URLSearchParams(location.search).get('area') || '';
+    apply(buttons.some(function (b) { return b.dataset.area === param; }) ? param : '');
+    root.addEventListener('filter', function (e) { apply(e.detail); });
+  })();
+</script>
+<script>
+  const root = document.querySelector<HTMLElement>('[data-filter]');
+  if (root) {
+    for (const b of root.querySelectorAll<HTMLButtonElement>('button[data-area]')) {
+      b.addEventListener('click', () => {
+        const area = b.dataset.area ?? '';
+        root.dispatchEvent(new CustomEvent('filter', { detail: area }));
+        const url = new URL(location.href);
+        if (area) url.searchParams.set('area', area);
+        else url.searchParams.delete('area');
+        history.replaceState(null, '', url);
+      });
+    }
+  }
+</script>

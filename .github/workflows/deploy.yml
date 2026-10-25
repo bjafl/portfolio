@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+# Manual only until Pages is enabled. Launch steps:
+#   1. Enable Pages with source "GitHub Actions".
+#   2. Add the trigger:
+#        push:
+#          branches: [main]
+#   3. Set the custom domain to portfolio.flode.net (public/CNAME already contains it).
+#   4. Enforce HTTPS once the certificate is issued.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: withastro/action@v3
+        with:
+          node-version: 22
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

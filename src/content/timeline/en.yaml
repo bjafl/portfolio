@@ -1,0 +1,25 @@
+entries:
+  - year: "Before 2023"
+    title: Excel, VBA and small tools at work
+    text: It started with spreadsheets and macros that saved time for me and my colleagues.
+  - year: "2020–2021"
+    title: Hobby projects on the side
+    text: Alongside work I made a C# converter from an iCloud backup to Evernote files (.enex) and fixed a bug in the open-source notes app Nomie 5, related to storing the CouchDB configuration.
+  - year: "2023–2024"
+    title: Scripts and programs for production, and course material
+    text: From December 2023 I built skilt-script (Python), and from January 2024 SkiltMeny (C# and PowerShell), for daily work. I also wrote course material for Python and programming, PY-101 and PROG-101.
+  - year: "2024–2025"
+    title: IT engineering studies at UiT, alongside a full-time job
+    text: From autumn 2024 I took courses in machine learning, data structures, Linux and advanced programming, 60 ECTS credits in total of the bachelor in IT engineering.
+  - year: "2025"
+    title: Browser extension, document conversion and open source
+    text: I built a Chrome extension for the case-management system PlusOffice, which we use at SPS, with its own release pipeline. I also made tools for converting documents between docx, HTML and PDF, a Home Assistant integration for the Homely alarm system, and the first version of e2ee-file-drop for end-to-end encrypted file sharing.
+    projects: [plusoffice-extension, homely]
+  - year: "2026"
+    title: Stillas, full stack with its own operations
+    text: Stillas is a full-stack platform I have developed, covering the application, deployment and monitoring. It is where knowing the organisation meets what I have learned about architecture and operations.
+    projects: [stillas]
+  - year: "2026"
+    title: More tools, from AI infrastructure to interactive UI
+    text: The same year came tiny-metamcp and other MCP tools, tiptap-boost, a Tripletex integration, e2ee-drop as a full rewrite of the prototype, wheel-planner and prodimg.
+    projects: [tiny-metamcp, e2ee-drop, wheel-planner]

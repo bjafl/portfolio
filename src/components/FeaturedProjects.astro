@@ -1,0 +1,16 @@
+---
+import { localizePath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { getFeatured } from '../lib/projects';
+import ProjectCard from './ProjectCard.astro';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const featured = (await getFeatured(locale)).slice(0, 6);
+---
+<section aria-labelledby="featured-heading" class="mt-14">
+  <h2 id="featured-heading" class="text-2xl font-bold">{t(locale, 'section.featured')}</h2>
+  <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {featured.map((p) => <ProjectCard project={p} locale={locale} />)}
+  </div>
+  <p class="mt-5"><a href={localizePath('projects', locale)} class="font-semibold">{t(locale, 'featured.all')}</a></p>
+</section>
