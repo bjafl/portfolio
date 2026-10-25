@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import geistUrl from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import geistMonoUrl from '@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2?url';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { site } from '../config/site';
@@ -29,6 +31,9 @@ const xDefault = alternates.find((a) => a.l === 'nb')!.href;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
+    {/* Preload the latin fonts so they arrive before first paint; a late swap shifts the layout. */}
+    <link rel="preload" href={geistUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={geistMonoUrl} as="font" type="font/woff2" crossorigin />
     {description && <meta name="description" content={description} />}
     <meta property="og:title" content={fullTitle} />
     {description && <meta property="og:description" content={description} />}
