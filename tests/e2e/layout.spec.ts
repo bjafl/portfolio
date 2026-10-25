@@ -29,7 +29,7 @@ test('dark OS preference resolves to dark with nothing stored', async ({ browser
 });
 
 test('without JS the body background equals the OS-preferred --background', async ({ browser }) => {
-  const expected = { light: 'rgb(248, 249, 247)', dark: 'rgb(13, 18, 15)' } as const;
+  const expected = { light: 'rgb(248, 249, 247)', dark: 'rgb(15, 17, 15)' } as const;
   for (const scheme of ['light', 'dark'] as const) {
     const ctx = await browser.newContext({ colorScheme: scheme, javaScriptEnabled: false });
     const page = await ctx.newPage();

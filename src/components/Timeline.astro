@@ -17,7 +17,7 @@ const lane = { tech: 'md:col-start-2', people: 'md:col-start-3', both: 'md:col-s
   <p class="mt-2 max-w-[62ch] text-muted-foreground">{t(locale, 'timeline.intro')}</p>
   <div aria-hidden="true" class={`mt-8 hidden pb-3 font-mono text-xs font-medium md:grid ${row}`}>
     <span></span>
-    <span class="text-primary">{t(locale, 'timeline.tech')}</span>
+    <span class="text-primary-text">{t(locale, 'timeline.tech')}</span>
     <span class="text-muted-foreground">{t(locale, 'timeline.people')}</span>
   </div>
   <ol class="mt-6 md:mt-0">
@@ -26,7 +26,7 @@ const lane = { tech: 'md:col-start-2', people: 'md:col-start-3', both: 'md:col-s
       const merged = e.track === 'both';
       return (
         <li class={row}>
-          <span class={`py-3 font-mono text-[13px] tabular ${merged ? 'pt-4 font-medium text-primary' : 'text-muted-foreground'}`}>{e.year}</span>
+          <span class={`py-3 font-mono text-[13px] tabular ${merged ? 'pt-4 font-medium text-primary-text' : 'text-muted-foreground'}`}>{e.year}</span>
           <div class={merged
             ? `my-2 rounded-lg bg-accent px-5 py-4 ${lane.both}`
             : `border-l-2 py-3 pb-5 pl-5 ${e.track === 'tech' ? 'border-primary' : 'border-muted-foreground'} ${lane[e.track]}`}>

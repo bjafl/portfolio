@@ -39,7 +39,7 @@
     <line x1="364" y1="256" x2="364" y2="288" marker-end="url(#po-arrow)" fill="none"/>
 
     <!-- Storage -->
-    <rect x="16" y="290" width="448" height="56" rx="12" fill="#d3e6d8"/>
+    <rect x="16" y="290" width="448" height="56" rx="12" fill="#c9dfcf"/>
     <text x="240" y="314" font-size="17" font-weight="700" stroke="none">Storage</text>
     <text x="240" y="334" font-size="15" stroke="none">chrome.storage · IndexedDB (anonymised)</text>
 

@@ -23,7 +23,7 @@
     <line x1="356" y1="84" x2="356" y2="110" marker-end="url(#arrow)" fill="none"/>
 
     <!-- Store -->
-    <rect x="16" y="112" width="448" height="64" rx="12" fill="#d3e6d8"/>
+    <rect x="16" y="112" width="448" height="64" rx="12" fill="#c9dfcf"/>
     <text x="240" y="138" font-size="17" font-weight="700" stroke="none">Zustand store</text>
     <text x="240" y="160" font-size="15" stroke="none">repacks lanes · saves every change</text>
 

@@ -32,7 +32,7 @@
     <line x1="356" y1="180" x2="356" y2="214" marker-end="url(#arrow)" fill="none"/>
 
     <!-- Coordinator -->
-    <rect x="16" y="216" width="448" height="80" rx="12" fill="#d3e6d8"/>
+    <rect x="16" y="216" width="448" height="80" rx="12" fill="#c9dfcf"/>
     <text x="240" y="242" font-size="17" font-weight="700" stroke="none">DataUpdateCoordinator</text>
     <text x="240" y="264" font-size="15" stroke="none">typed state model (pydantic) · push events merged in</text>
     <text x="240" y="284" font-size="15" stroke="none">polling 30 s – 30 min · rate-limit pause</text>
