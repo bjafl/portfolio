@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { localizePath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import { getProjects, hasProject, slugOf } from '../lib/projects';
+interface Props { locale: Locale; principles: CollectionEntry<'home'>['data']['principles'] }
+const { locale, principles } = Astro.props;
+const titles = new Map((await getProjects(locale)).map((p) => [slugOf(p.id), p.data.title]));
+---
+<section aria-labelledby="principles-heading" class="pt-18">
+  <h2 id="principles-heading" class="text-2xl">{t(locale, 'section.principles')}</h2>
+  <p class="mt-2 max-w-[62ch] text-muted-foreground">{t(locale, 'principles.intro')}</p>
+  <ol class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    {principles.map((p, i) => (
+      <li class="flex flex-col rounded-lg border border-border bg-card p-6">
+        <p class="font-mono text-xs text-muted-foreground">{String(i + 1).padStart(2, '0')} · {t(locale, 'principles.label')}</p>
+        <h3 class="mt-2 text-lg tracking-[-0.01em]">{p.title}</h3>
+        <p class="mt-4 border-t border-border pt-4 text-xs text-muted-foreground">{t(locale, 'principles.becomes')}</p>
+        <p class="mt-1">{p.text}</p>
+        {p.project && hasProject(p.project, locale) && (
+          <a href={localizePath('project', locale, p.project)} class="mt-auto pt-4 font-medium">{titles.get(p.project)}</a>
+        )}
+      </li>
+    ))}
+  </ol>
+</section>

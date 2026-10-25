@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '../i18n/routes';
 import { t } from '../i18n/ui';
+import Icon from './Icon.astro';
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 ---
@@ -9,11 +10,9 @@ const { locale } = Astro.props;
   id="theme-toggle"
   aria-label={t(locale, 'theme.toggle')}
   aria-pressed="false"
-  class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface text-text"
+  class="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground"
 >
-  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
-  </svg>
+  <Icon name="moon" />
 </button>
 <script>
   const btn = document.getElementById('theme-toggle');

@@ -1,11 +1,33 @@
 ---
+import type { CollectionEntry } from 'astro:content';
+import { site } from '../config/site';
 import { localizePath, type Locale } from '../i18n/routes';
 import { t } from '../i18n/ui';
-interface Props { locale: Locale }
-const { locale } = Astro.props;
+import Icon from './Icon.astro';
+interface Props { locale: Locale; home: CollectionEntry<'home'>['data'] }
+const { locale, home } = Astro.props;
+const { hero, facts } = home;
+const btn = 'inline-flex h-9 items-center gap-2 rounded-md px-4 font-medium no-underline hover:no-underline';
 ---
-<section class="rounded-[var(--radius-card)] bg-peach px-6 py-10 text-ink sm:px-10 sm:py-14">
-  <h1 class="text-3xl font-bold sm:text-5xl">{t(locale, 'hero.title')}</h1>
-  <p class="mt-4 max-w-2xl text-lg sm:text-xl">{t(locale, 'hero.subtitle')}</p>
-  <a href={localizePath('projects', locale)} class="mt-6 inline-block rounded-full bg-surface px-5 py-2 font-semibold text-ink no-underline">{t(locale, 'hero.cta')}</a>
+<section aria-labelledby="hero-heading" class="flex flex-wrap items-end gap-12 border-b border-border pt-16 pb-14 md:pt-22 md:pb-16">
+  <div class="min-w-0 flex-[999_1_32rem]">
+    <p class="mb-5 font-mono text-xs tracking-[0.02em] text-muted-foreground">{hero.eyebrow}</p>
+    <h1 id="hero-heading" class="max-w-[19ch] text-[clamp(2.125rem,5vw,3.375rem)] leading-[1.06] tracking-[-0.035em]">{hero.title}</h1>
+    <p class="mt-6 max-w-[58ch] text-base leading-relaxed text-muted-foreground">{hero.lead}</p>
+    <div class="mt-8 flex flex-wrap gap-2">
+      <a href={localizePath('projects', locale)} class={`${btn} bg-primary text-primary-foreground hover:bg-primary-hover`}>{t(locale, 'hero.cta')}<Icon name="arrow-right" /></a>
+      <a href={localizePath('about', locale)} class={`${btn} bg-secondary text-secondary-foreground hover:bg-accent`}>{t(locale, 'nav.about')}</a>
+      <a href={site.github} class={`${btn} px-3 text-foreground hover:bg-accent hover:text-accent-foreground`}><Icon name="github" />{t(locale, 'footer.github')}</a>
+    </div>
+  </div>
+  {facts.length > 0 && (
+    <dl class="grid flex-[1_1_18rem] grid-cols-2 overflow-hidden rounded-lg border border-border bg-card [&>div]:border-border [&>div:nth-child(odd)]:border-r [&>div:nth-child(-n+2)]:border-b">
+      {facts.map((f) => (
+        <div class="p-5">
+          <dt class="text-xs text-muted-foreground">{f.label}</dt>
+          <dd class={f.mono ? 'mt-1 font-mono text-[28px] font-medium tracking-[-0.02em] tabular' : 'mt-1.5 text-xl font-semibold tracking-[-0.02em]'}>{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  )}
 </section>

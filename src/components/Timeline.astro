@@ -8,23 +8,37 @@ interface Props { locale: Locale }
 const { locale } = Astro.props;
 const entries = (await getEntry('timeline', locale))?.data.entries ?? [];
 const titles = new Map((await getProjects(locale)).map((p) => [slugOf(p.id), p.data.title]));
+// Two lanes from md up (technology | people), merged entries span both. On phones it is one column.
+const row = 'grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-4 md:grid-cols-[6.5rem_minmax(0,1fr)_minmax(0,1fr)] md:gap-x-6';
+const lane = { tech: 'md:col-start-2', people: 'md:col-start-3', both: 'md:col-span-2' } as const;
 ---
-<section aria-labelledby="timeline-heading" class="mt-14">
-  <h2 id="timeline-heading" class="text-2xl font-bold">{t(locale, 'section.timeline')}</h2>
-  <ol class="mt-5 space-y-4 border-l-2 border-border pl-5">
+<section aria-labelledby="timeline-heading" class="pt-20">
+  <h2 id="timeline-heading" class="text-2xl">{t(locale, 'section.timeline')}</h2>
+  <p class="mt-2 max-w-[62ch] text-muted-foreground">{t(locale, 'timeline.intro')}</p>
+  <div aria-hidden="true" class={`mt-8 hidden pb-3 font-mono text-xs font-medium md:grid ${row}`}>
+    <span></span>
+    <span class="text-primary">{t(locale, 'timeline.tech')}</span>
+    <span class="text-muted-foreground">{t(locale, 'timeline.people')}</span>
+  </div>
+  <ol class="mt-6 md:mt-0">
     {entries.map((e) => {
       const links = visibleTimelineProjects(e.projects, (s) => hasProject(s, locale));
+      const merged = e.track === 'both';
       return (
-        <li class="relative">
-          <span class="absolute -left-[1.6rem] top-2 h-3 w-3 rounded-full bg-peach ring-2 ring-border" aria-hidden="true"></span>
-          <p class="font-display text-lg font-bold">{e.year}</p>
-          <h3 class="font-bold">{e.title}</h3>
-          <p>{e.text}</p>
-          {links.length > 0 && (
-            <ul class="mt-1 flex flex-wrap gap-x-4">
-              {links.map((s) => <li><a href={localizePath('project', locale, s)}>{titles.get(s) ?? s}</a></li>)}
-            </ul>
-          )}
+        <li class={row}>
+          <span class={`py-3 font-mono text-[13px] tabular ${merged ? 'pt-4 font-medium text-primary' : 'text-muted-foreground'}`}>{e.year}</span>
+          <div class={merged
+            ? `my-2 rounded-lg bg-accent px-5 py-4 ${lane.both}`
+            : `border-l-2 py-3 pb-5 pl-5 ${e.track === 'tech' ? 'border-primary' : 'border-muted-foreground'} ${lane[e.track]}`}>
+            {!merged && <p class="font-mono text-[11px] text-muted-foreground md:hidden">{t(locale, e.track === 'tech' ? 'timeline.tech' : 'timeline.people')}</p>}
+            <h3 class={`text-[15px] tracking-[-0.01em] ${merged ? 'text-accent-foreground' : ''}`}>{e.title}</h3>
+            <p class={`mt-0.5 ${merged ? 'text-foreground' : 'text-muted-foreground'}`}>{e.text}</p>
+            {links.length > 0 && (
+              <ul class="mt-2 flex flex-wrap gap-x-3 text-[13px] font-medium">
+                {links.map((s) => <li><a href={localizePath('project', locale, s)}>{titles.get(s) ?? s}</a></li>)}
+              </ul>
+            )}
+          </div>
         </li>
       );
     })}

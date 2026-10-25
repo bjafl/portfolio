@@ -8,7 +8,7 @@ context: personal
 areas: [frontend, backend, devops, security]
 stack: [TypeScript, React, Vite, Tailwind CSS, Fastify, PostgreSQL, Prisma, MinIO, tweetnacl, Argon2id, Docker Compose, Vitest]
 featured: true
-order: 3
+order: 4
 repo: https://github.com/bjafl/e2ee-drop
 links:
   - label: "Predecessor: e2ee-file-drop"

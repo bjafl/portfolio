@@ -3,40 +3,33 @@ import { t } from '../i18n/ui';
 import type { Locale } from '../i18n/routes';
 import { formatPeriod } from '../lib/project-model';
 import type { ProjectEntry } from '../lib/projects';
-import AreaTag from './AreaTag.astro';
-import StatusBadge from './StatusBadge.astro';
+import Icon from './Icon.astro';
 interface Props { project: ProjectEntry; locale: Locale }
 const { project, locale } = Astro.props;
-const { status, context, period, areas, stack, repo, links } = project.data;
+const { context, period, repo, links, facts } = project.data;
 const periodText = formatPeriod(period, locale, t(locale, 'case.ongoing'));
+const dt = 'text-xs text-muted-foreground';
 ---
-<div data-case-meta class="mb-6 rounded-[var(--radius-card)] border border-border bg-surface p-5">
-  <div class="mb-4 flex flex-wrap items-center gap-2">
-    <StatusBadge status={status} locale={locale} />
-    {areas.map((a) => <AreaTag area={a} locale={locale} />)}
+<dl data-case-meta class="mt-8 grid grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] gap-x-8 gap-y-4">
+  <div><dt class={dt}>{t(locale, 'case.context')}</dt><dd class="mt-1 font-medium">{t(locale, `context.${context}`)}</dd></div>
+  <div><dt class={dt}>{t(locale, 'case.period')}</dt><dd class="mt-1 font-mono tabular">{periodText}</dd></div>
+  {facts?.map((f) => <div><dt class={dt}>{f.label}</dt><dd class="mt-1 font-medium">{f.value}</dd></div>)}
+  <div>
+    <dt class={dt}>{t(locale, 'case.code')}</dt>
+    <dd class="mt-1 font-medium">
+      {repo
+        ? <a href={repo} class="inline-flex items-center gap-1.5 break-all"><Icon name="github" size={14} />{repo.replace(/^https?:\/\/(www\.)?github\.com\//, '')}</a>
+        : <span class="inline-flex items-center gap-1.5"><Icon name="lock" size={14} />{t(locale, 'case.private')}</span>}
+    </dd>
   </div>
-  <dl class="grid gap-x-6 gap-y-3 sm:grid-cols-[max-content_1fr]">
-    <dt class="font-semibold">{t(locale, 'case.context')}</dt>
-    <dd>{t(locale, `context.${context}`)}</dd>
-    <dt class="font-semibold">{t(locale, 'case.period')}</dt>
-    <dd>{periodText}</dd>
-    {stack.length > 0 && (
-      <>
-        <dt class="font-semibold">{t(locale, 'case.stack')}</dt>
-        <dd>{stack.join(', ')}</dd>
-      </>
-    )}
-    <dt class="font-semibold">{t(locale, 'case.code')}</dt>
-    <dd>{repo ? <a href={repo}>{repo.replace(/^https?:\/\//, '')}</a> : t(locale, 'case.private')}</dd>
-    {links && links.length > 0 && (
-      <>
-        <dt class="font-semibold">{t(locale, 'case.links')}</dt>
-        <dd>
-          <ul class="flex flex-wrap gap-x-4">
-            {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
-          </ul>
-        </dd>
-      </>
-    )}
-  </dl>
-</div>
+  {links && links.length > 0 && (
+    <div>
+      <dt class={dt}>{t(locale, 'case.links')}</dt>
+      <dd class="mt-1">
+        <ul class="flex flex-col gap-1">
+          {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </dd>
+    </div>
+  )}
+</dl>

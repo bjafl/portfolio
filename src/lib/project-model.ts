@@ -4,7 +4,8 @@ import { AREAS } from './areas';
 import { LOCALES } from '../i18n/routes';
 import type { Locale } from '../i18n/routes';
 
-const yearMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'expected YYYY-MM');
+// A bare year is allowed when the month is not known.
+const yearMonth = z.string().regex(/^\d{4}(-(0[1-9]|1[0-2]))?$/, 'expected YYYY-MM or YYYY');
 
 /** `image` is the helper from the content-config schema callback; tests pass a stub. */
 export function makeProjectSchema(image: () => z.ZodType) {
@@ -24,6 +25,11 @@ export function makeProjectSchema(image: () => z.ZodType) {
       cover: image().optional(),
       coverAlt: z.string().optional(),
       related: z.array(z.string()).optional(),
+      // The two layers of a project card: what it gives the service, and how it is built.
+      service: z.array(z.string()).optional(),
+      technical: z.array(z.string()).optional(),
+      // Extra label/value pairs for the case header, e.g. number of users.
+      facts: z.array(z.object({ label: z.string(), value: z.string() })).optional(),
       draft: z.boolean().default(false),
     })
     .refine((p) => !p.cover || !!p.coverAlt, {
@@ -37,9 +43,35 @@ export const timelineSchema = z.array(
     year: z.string(),
     title: z.string(),
     text: z.string(),
+    // Which lane the entry sits in; `both` spans both lanes.
+    track: z.enum(['tech', 'people', 'both']).default('both'),
     projects: z.array(z.string()).optional(),
   }),
 );
+
+const offerItem = z.object({
+  title: z.string(),
+  text: z.string(),
+  projects: z.array(z.string()).optional(),
+  about: z.boolean().default(false),
+  note: z.string().optional(),
+});
+
+/** Front-page copy per locale (src/content/home/<locale>.yaml). */
+export const homeSchema = z.object({
+  hero: z.object({ eyebrow: z.string(), title: z.string(), lead: z.string(), description: z.string().max(160) }),
+  facts: z.array(z.object({ label: z.string(), value: z.string(), mono: z.boolean().default(true) })),
+  principles: z.array(z.object({ title: z.string(), text: z.string(), project: z.string().optional() })),
+  offer: z.object({ technical: z.array(offerItem), human: z.array(offerItem) }),
+});
+
+/** Slugs the front page links to, for reference checking. */
+export function homeProjectSlugs(home: z.infer<typeof homeSchema>): string[] {
+  return [
+    ...home.principles.flatMap((p) => (p.project ? [p.project] : [])),
+    ...[...home.offer.technical, ...home.offer.human].flatMap((o) => o.projects ?? []),
+  ];
+}
 
 export interface Sortable {
   featured: boolean;
@@ -91,8 +123,9 @@ export function visibleTimelineProjects(
 
 const DATE_LOCALE: Record<Locale, string> = { nb: 'nb-NO', en: 'en-GB' };
 
-/** "2026-02" -> "feb. 2026" (nb) / "Feb 2026" (en). */
+/** "2026-02" -> "feb. 2026" (nb) / "Feb 2026" (en); a bare "2026" stays as is. */
 export function formatYearMonth(ym: string, locale: Locale): string {
+  if (!ym.includes('-')) return ym;
   const [y, m] = ym.split('-').map(Number);
   return new Intl.DateTimeFormat(DATE_LOCALE[locale], {
     month: 'short',
@@ -106,15 +139,25 @@ export function formatPeriod(
   locale: Locale,
   ongoingLabel: string,
 ): string {
+  if (period.end === period.start) return formatYearMonth(period.start, locale);
   const end = period.end ? formatYearMonth(period.end, locale) : ongoingLabel;
   return `${formatYearMonth(period.start, locale)} – ${end}`;
 }
 
-/** Throws if a `related` or timeline `projects` slug matches no project (drafts count as existing). */
+/** "2025-05" -> "2025–", with end -> "2025–2026", same year -> "2025". */
+export function formatYearRange(period: { start: string; end?: string }): string {
+  const start = period.start.slice(0, 4);
+  if (!period.end) return `${start}–`;
+  const end = period.end.slice(0, 4);
+  return start === end ? start : `${start}–${end}`;
+}
+
+/** Throws if a `related`, timeline or other `projects` slug matches no project (drafts count as existing). */
 export function assertReferences(
   projectIds: string[],
   projects: { id: string; related?: string[] }[],
   timelines: { id: string; entries: { projects?: string[] }[] }[],
+  others: { id: string; slugs: string[] }[] = [],
 ): void {
   const known = new Set(projectIds.map(slugOf));
   const problems: string[] = [];
@@ -128,6 +171,11 @@ export function assertReferences(
       for (const slug of e.projects ?? []) {
         if (!known.has(slug)) problems.push(`timeline ${tl.id}: project slug "${slug}" does not exist`);
       }
+    }
+  }
+  for (const o of others) {
+    for (const slug of o.slugs) {
+      if (!known.has(slug)) problems.push(`${o.id}: project slug "${slug}" does not exist`);
     }
   }
   if (problems.length) throw new Error(`Unknown project reference. ${problems.join('; ')}`);

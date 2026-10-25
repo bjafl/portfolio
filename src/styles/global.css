@@ -1,35 +1,48 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/nunito';
-@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
 
-/* Warm palette. Contrast (WCAG) is documented in the task report; text/background
-   pairs are all >= 4.5:1 in both themes. Accent fills carry --ink text. */
+/* Flode design system. Token names follow shadcn/ui; text/background pairs are
+   >= 4.5:1 in both themes. */
 :root {
   color-scheme: light;
-  --bg: #fbf5ea;
-  --surface: #fffdf8;
-  --text: #2e2620;
-  --muted: #665848;
-  --link: #8a3a14;
-  --border: #8f7f6a;
-  --accent-peach: #f6d5bc;
-  --accent-sage: #d3e2cb;
-  --accent-blue: #cfddeb;
-  --ink: #2e2620;
+  --background: #f8f9f7;
+  --foreground: #121a15;
+  --card: #ffffff;
+  --card-foreground: #121a15;
+  --primary: #1f5a3d;
+  --primary-hover: #184a32;
+  --primary-foreground: #ffffff;
+  --secondary: #e8ede7;
+  --secondary-foreground: #121a15;
+  --muted: #eef1ed;
+  --muted-foreground: #56625a;
+  --accent: #e4efe6;
+  --accent-foreground: #1a4630;
+  --border: #dde3dc;
+  --input: #7e8a81;
+  --ring: #1f5a3d;
+  --radius: 0.5rem;
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: #1f1a16;
-  --surface: #2a231d;
-  --text: #f3e9da;
-  --muted: #c2b5a4;
-  --link: #f0b48c;
-  --border: #8f8070;
-  --accent-peach: #5a3a28;
-  --accent-sage: #34452f;
-  --accent-blue: #2f4256;
-  --ink: #f3e9da;
+  --background: #0d120f;
+  --foreground: #e5ebe6;
+  --card: #131a16;
+  --card-foreground: #e5ebe6;
+  --primary: #5fb383;
+  --primary-hover: #74c495;
+  --primary-foreground: #0a1f13;
+  --secondary: #1d2822;
+  --secondary-foreground: #e5ebe6;
+  --muted: #19221d;
+  --muted-foreground: #94a199;
+  --accent: #17301f;
+  --accent-foreground: #a9dcb9;
+  --border: #253029;
+  --input: #5c6b61;
+  --ring: #7cc79a;
 }
 
 /* Keep in sync with :root[data-theme='dark'] above. */
@@ -37,94 +50,177 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
-    --bg: #1f1a16;
-    --surface: #2a231d;
-    --text: #f3e9da;
-    --muted: #c2b5a4;
-    --link: #f0b48c;
-    --border: #8f8070;
-    --accent-peach: #5a3a28;
-    --accent-sage: #34452f;
-    --accent-blue: #2f4256;
-    --ink: #f3e9da;
+    --background: #0d120f;
+    --foreground: #e5ebe6;
+    --card: #131a16;
+    --card-foreground: #e5ebe6;
+    --primary: #5fb383;
+    --primary-hover: #74c495;
+    --primary-foreground: #0a1f13;
+    --secondary: #1d2822;
+    --secondary-foreground: #e5ebe6;
+    --muted: #19221d;
+    --muted-foreground: #94a199;
+    --accent: #17301f;
+    --accent-foreground: #a9dcb9;
+    --border: #253029;
+    --input: #5c6b61;
+    --ring: #7cc79a;
   }
 }
 
 @theme inline {
-  --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-text: var(--text);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
-  --color-link: var(--link);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
-  --color-peach: var(--accent-peach);
-  --color-sage: var(--accent-sage);
-  --color-blue: var(--accent-blue);
-  --color-ink: var(--ink);
-  --font-sans: 'Nunito Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
-  --radius-card: 1.25rem;
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
 }
 
 @layer base {
   html {
-    background: var(--bg);
+    background: var(--background);
   }
   body {
-    background: var(--bg);
-    color: var(--text);
+    background: var(--background);
+    color: var(--foreground);
     font-family: var(--font-sans);
-    line-height: 1.6;
+    font-size: 0.875rem;
+    line-height: 1.55;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
   }
   h1, h2, h3 {
-    font-family: var(--font-display);
-    line-height: 1.2;
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: -0.02em;
   }
   a {
-    color: var(--link);
-    text-underline-offset: 0.2em;
+    color: var(--primary);
+    text-underline-offset: 3px;
+    transition: color 150ms ease-out, background-color 150ms ease-out;
+  }
+  a:hover {
+    text-decoration-line: underline;
   }
   :focus-visible {
-    outline: 3px solid var(--link);
+    outline: 2px solid var(--ring);
     outline-offset: 2px;
-    border-radius: 0.25rem;
   }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition: none !important;
+    }
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Markdown body of case studies and pages. */
 .prose-case {
-  line-height: 1.75;
+  font-size: 1rem;
+  line-height: 1.65;
   overflow-wrap: anywhere;
 }
 .prose-case > * + * { margin-top: 1rem; }
-.prose-case h2 { margin-top: 2.5rem; font-size: 1.6rem; font-weight: 700; }
-.prose-case h3 { margin-top: 1.75rem; font-size: 1.25rem; font-weight: 700; }
-.prose-case ul, .prose-case ol { padding-left: 1.5rem; }
+.prose-case h2 { margin-top: 3rem; font-size: 1.5rem; }
+.prose-case h3 { margin-top: 2rem; font-size: 1.125rem; letter-spacing: -0.01em; }
+.prose-case > :first-child { margin-top: 0; }
+.prose-case ul, .prose-case ol { padding-left: 1.25rem; }
 .prose-case ul { list-style: disc; }
 .prose-case ol { list-style: decimal; }
-.prose-case li + li { margin-top: 0.25rem; }
-.prose-case a { text-decoration: underline; }
-.prose-case img, .prose-case svg { max-width: 100%; height: auto; border-radius: var(--radius-card); }
-.prose-case code {
-  font-size: 0.9em;
-  background: var(--surface);
+.prose-case li + li { margin-top: 0.5rem; }
+.prose-case li::marker { color: var(--muted-foreground); }
+.prose-case strong { font-weight: 600; }
+.prose-case a { text-decoration-line: underline; }
+.prose-case img, .prose-case svg {
+  max-width: 100%;
+  height: auto;
   border: 1px solid var(--border);
-  border-radius: 0.375rem;
+  border-radius: var(--radius);
+}
+.prose-case code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--muted);
+  border-radius: var(--radius-sm);
   padding: 0.1em 0.35em;
 }
 .prose-case pre {
   overflow-x: auto;
   padding: 1rem;
   border: 1px solid var(--border);
-  border-radius: 1rem;
-  background: var(--surface);
+  border-radius: var(--radius);
+  background: var(--card);
 }
-.prose-case pre code { border: 0; padding: 0; background: none; }
+.prose-case pre code { padding: 0; background: none; }
 .prose-case blockquote {
-  border-left: 4px solid var(--border);
+  border-left: 2px solid var(--border);
   padding-left: 1rem;
-  color: var(--muted);
+  color: var(--muted-foreground);
+}
+.prose-case table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.prose-case th, .prose-case td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+.prose-case thead th {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+.prose-case tbody tr:last-child > * { border-bottom: 0; }
+.prose-case tbody td:first-child { font-weight: 600; }
+
+/* "Del 1 · For tjenesten" chips that open the two layers of a case study. */
+.prose-case .part {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
+  padding: 0 0.625rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.5rem;
+}
+.prose-case .part + h2 { margin-top: 1rem; font-size: 1.75rem; letter-spacing: -0.025em; }
+.prose-case .part-service { background: var(--accent); color: var(--accent-foreground); }
+.prose-case .part-technical {
+  border: 1px solid var(--border);
+  color: var(--muted-foreground);
+}
+.prose-case hr {
+  margin: 4rem 0 3rem;
+  border: 0;
+  border-top: 1px solid var(--border);
 }

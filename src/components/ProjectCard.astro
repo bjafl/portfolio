@@ -1,18 +1,31 @@
 ---
 import { localizePath, type Locale } from '../i18n/routes';
+import { formatYearRange } from '../lib/project-model';
 import { slugOf, type ProjectEntry } from '../lib/projects';
 import AreaTag from './AreaTag.astro';
 import StatusBadge from './StatusBadge.astro';
-interface Props { project: ProjectEntry; locale: Locale }
-const { project, locale } = Astro.props;
-const { title, summary, status, areas } = project.data;
+interface Props { project: ProjectEntry; locale: Locale; areas?: boolean }
+const { project, locale, areas: showAreas = true } = Astro.props;
+const { title, summary, status, areas, stack, period } = project.data;
 const href = localizePath('project', locale, slugOf(project.id));
+// Repository-style names (e2ee-drop) are set in mono.
+const mono = /^[a-z0-9-]+$/.test(title);
 ---
-<article class="flex flex-col gap-3 rounded-[var(--radius-card)] border border-border bg-surface p-5">
-  <h3 class="text-xl font-bold"><a href={href}>{title}</a></h3>
-  <p>{summary}</p>
-  <div class="mt-auto flex flex-wrap items-center gap-2">
+<article class="flex flex-col gap-3 rounded-lg border border-border bg-card p-5 text-card-foreground">
+  <div class="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+    <span class="font-mono tabular">{formatYearRange(period)}</span>
     <StatusBadge status={status} locale={locale} />
-    {areas.map((a) => <AreaTag area={a} locale={locale} />)}
   </div>
+  <h3 class={mono ? 'font-mono text-base font-medium tracking-normal' : 'text-base'}>
+    <a href={href} class="text-foreground">{title}</a>
+  </h3>
+  <p class="text-muted-foreground">{summary}</p>
+  {showAreas && (
+    <div class="flex flex-wrap gap-1.5">
+      {areas.map((a) => <AreaTag area={a} locale={locale} />)}
+    </div>
+  )}
+  {stack.length > 0 && (
+    <p class="mt-auto border-t border-border pt-3 font-mono text-xs text-muted-foreground">{stack.slice(0, 4).join(' · ')}</p>
+  )}
 </article>

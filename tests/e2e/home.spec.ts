@@ -19,15 +19,20 @@ for (const l of locales) {
       await expect(timeline.locator('#timeline-heading')).toBeVisible();
       await expect(timeline.getByRole('list').first()).toBeVisible();
 
-      const featured = page.locator('section[aria-labelledby="featured-heading"] article');
-      expect(await featured.count()).toBeGreaterThanOrEqual(1);
-      expect(await featured.count()).toBeLessThanOrEqual(6);
+      const work = page.locator('section[aria-labelledby="featured-heading"] article');
+      expect(await work.count()).toBeGreaterThanOrEqual(1);
+      expect(await work.count()).toBeLessThanOrEqual(6);
+      // Work cards carry both layers: for the service and under the hood.
+      await expect(work.first().locator('ul')).toHaveCount(2);
 
-      const skills = page.locator('section[aria-labelledby="skills-heading"] a');
-      await expect(skills).toHaveCount(6);
-      const hrefs = await skills.evaluateAll((els) => els.map((e) => e.getAttribute('href')));
-      const re = new RegExp(`^${l.projectsBase}\\?area=(frontend|backend|data|devops|ai|security)$`);
-      for (const h of hrefs) expect(h).toMatch(re);
+      await expect(page.locator('section[aria-labelledby="personal-heading"] article').first()).toBeVisible();
+      await expect(page.locator('section[aria-labelledby="principles-heading"] li')).toHaveCount(4);
+
+      const offer = page.locator('section[aria-labelledby="offer-heading"]');
+      await expect(offer.locator('h3')).toHaveCount(2);
+      const hrefs = await offer.locator('a').evaluateAll((els) => els.map((e) => e.getAttribute('href') ?? ''));
+      expect(hrefs.length).toBeGreaterThanOrEqual(1);
+      for (const h of hrefs) expect(h.startsWith(l.projectsBase) || h.endsWith(l.name === 'nb' ? '/om/' : '/en/about/'), h).toBe(true);
     });
 
     test('timeline links only to existing case pages', async ({ page, request }) => {

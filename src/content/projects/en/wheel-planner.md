@@ -8,7 +8,7 @@ context: personal
 areas: [frontend, backend]
 stack: [React 19, TypeScript, Vite, Zustand, Tailwind CSS, shadcn/ui, Floating UI, SVG, d3-shape, date-fns, "@use-gesture/react", "@dnd-kit", Express 5, SQLite, better-sqlite3, pnpm workspaces, just, Vitest, Testing Library, Supertest]
 featured: true
-order: 6
+order: 7
 repo: https://github.com/bjafl/wheel-planner
 draft: false
 ---

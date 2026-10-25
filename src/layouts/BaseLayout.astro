@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import geistUrl from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import geistMonoUrl from '@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2?url';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { site } from '../config/site';
@@ -29,6 +31,9 @@ const xDefault = alternates.find((a) => a.l === 'nb')!.href;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
+    {/* Preload the latin fonts so they arrive before first paint; a late swap shifts the layout. */}
+    <link rel="preload" href={geistUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={geistMonoUrl} as="font" type="font/woff2" crossorigin />
     {description && <meta name="description" content={description} />}
     <meta property="og:title" content={fullTitle} />
     {description && <meta property="og:description" content={description} />}
@@ -60,9 +65,9 @@ const xDefault = alternates.find((a) => a.l === 'nb')!.href;
     </script>
   </head>
   <body>
-    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded-full focus:bg-peach focus:px-4 focus:py-2 focus:text-ink">{t(locale, 'skip.link')}</a>
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">{t(locale, 'skip.link')}</a>
     <Header locale={locale} />
-    <main id="main" class="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
+    <main id="main" class="mx-auto w-full max-w-[1120px] flex-1 px-4 pb-24 md:px-6">
       <slot />
     </main>
     <Footer locale={locale} />
