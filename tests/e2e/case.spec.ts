@@ -3,8 +3,8 @@ import { expect, test } from '@playwright/test';
 import { readdirSync, readFileSync } from 'node:fs';
 
 const locales = [
-  { code: 'nb', base: '/prosjekter/', about: '/om/', other: '/en/projects/' },
-  { code: 'en', base: '/en/projects/', about: '/en/about/', other: '/prosjekter/' },
+  { code: 'nb', base: '/prosjekter/', about: '/om/', other: '/en/projects/', aboutHeading: 'Mennesker, systemer og kode' },
+  { code: 'en', base: '/en/projects/', about: '/en/about/', other: '/prosjekter/', aboutHeading: 'People, systems and code' },
 ] as const;
 
 function frontmatter(file: string): Record<string, string> {
@@ -97,7 +97,8 @@ for (const l of locales) {
       const res = await page.goto(l.about);
       expect(res?.status()).toBe(200);
       await expect(page.locator('h1')).toHaveCount(1);
-      await expect(page.locator('h1')).toHaveText(l.code === 'nb' ? 'Om meg' : 'About me');
+      await expect(page.locator('h1')).toHaveText(l.aboutHeading);
+      await expect(page).toHaveTitle(new RegExp(`^${l.code === 'nb' ? 'Om meg' : 'About me'} ·`));
       await expect(page.locator('main p').first()).toBeVisible();
     });
 

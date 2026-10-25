@@ -1,25 +1,48 @@
 entries:
-  - year: "Før 2023"
-    title: Excel, VBA og små verktøy i jobben
-    text: Det startet med regneark og makroer som sparte tid for meg selv og kollegene mine.
-  - year: "2020–2021"
+  - year: Tidlig
+    track: tech
+    title: Interesse og teft for data
+    text: Lærte meg programmering på egen hånd, først VBA og så C#.
+  - year: "2009–2012"
+    track: tech
+    title: Realfag på videregående
+    text: Matematikk R2, fysikk 2 og kjemi 2.
+  - year: "2013–2015"
+    track: tech
+    title: Kybernetikk og robotikk, NTNU
+    text: IT, kretsteknikk, matematikk 1–3 og tilpassede datasystemer.
+  - year: "2015–2016"
+    track: people
+    title: Profesjonsstudiet i psykologi, NTNU
+    text: Klinisk psykologi, metode og statistikk.
+  - year: "2017–2022"
+    track: tech
     title: Hobbyprosjekter på si
-    text: Ved siden av jobben laget jeg en C#-konverter fra iCloud-sikkerhetskopi til Evernote-filer (.enex) og rettet en feil i den åpne notatappen Nomie 5, knyttet til lagring av CouchDB-oppsett.
+    text: En C#-konverter til Evernote-format, og en feilretting i den åpne notatappen Nomie 5.
+  - year: "2017–2022"
+    track: people
+    title: Sosialt arbeid, UiS
+    text: >-
+      Bachelor med oppgave om inkludering gjennom IPS. Ved siden av: miljøterapi i psykisk helse, og praksis i
+      barnevernet.
+  - year: "2022"
+    title: "Jobbkonsulent i AFT: sporene møtes"
+    text: Regneark, makroer og små skript som sparer tid for meg og kollegene mine.
   - year: "2023–2024"
-    title: Skript og programmer for produksjonen, og kursmateriell
-    text: Fra desember 2023 laget jeg skilt-script (Python), og fra januar 2024 SkiltMeny (C# og PowerShell), til arbeidshverdagen. Jeg skrev også kursmateriell i Python og programmering, PY-101 og PROG-101.
-  - year: "2024–2025"
-    title: IT-ingeniørstudier ved UiT, ved siden av full jobb
-    text: Fra høsten 2024 tok jeg emner i maskinlæring, datastrukturer, Linux og videregående programmering, til sammen 60 studiepoeng i bachelor i IT-ingeniørfag.
+    title: Verktøy for produksjonen, og kurs for deltakere
+    text: >-
+      Et verktøy som gjør ordredata fra skiltproduksjonen om til oversiktlige Excel-dokumenter, først i Python, så i
+      C#. Kursmateriell i programmering for deltakere i AFT. Høsten 2024: 30 stp IT-ingeniørfag ved UiT, ved siden av
+      full jobb.
   - year: "2025"
-    title: Nettleserutvidelse, dokumentkonvertering og åpen kildekode
-    text: Jeg bygde en Chrome-utvidelse for fagsystemet PlusOffice, som vi bruker i SPS, med egen release-pipeline. Jeg lagde også verktøy for å konvertere dokumenter mellom docx, HTML og PDF, en Home Assistant-integrasjon for Homely-alarmen og den første versjonen av e2ee-file-drop for ende-til-ende-kryptert fildeling.
-    projects: [plusoffice-extension, homely]
+    title: Nytt fagsystem, og tillegget som fyller hullene
+    text: >-
+      Datamigrering og konvertering av alle dokumentmalene ved bytte av fagsystem. Første versjon av
+      nettlesertillegget på en måned, ved siden av jobben. På fritiden: homely og den første versjonen av e2ee-drop.
+    projects: [fagsystem-migrering, fagsystem-tillegg, homely]
   - year: "2026"
     title: Stillas, fullstack med egen drift
-    text: Stillas er en fullstack-plattform jeg har utviklet med både applikasjon, deploy og monitorering. Her møtes kunnskapen om virksomheten og det jeg har lært om arkitektur og drift.
-    projects: [stillas]
-  - year: "2026"
-    title: Flere verktøy, fra AI-infrastruktur til interaktivt UI
-    text: Samme år kom tiny-metamcp og andre MCP-verktøy, tiptap-boost, en Tripletex-integrasjon, e2ee-drop som en full omskriving av prototypen, wheel-planner og prodimg.
-    projects: [tiny-metamcp, e2ee-drop, wheel-planner]
+    text: >-
+      Fagkunnskap, arkitektur og drift i samme plattform. På fritiden: tiny-metamcp, e2ee-drop på nytt, og
+      wheel-planner.
+    projects: [stillas, tiny-metamcp, e2ee-drop, wheel-planner]

@@ -8,7 +8,7 @@ context: personal
 areas: [backend]
 stack: [Python, Home Assistant, Socket.IO, pydantic, asyncio, OpenAPI 3, Swagger UI, GitHub Actions, pytest, mypy, ruff, pre-commit, Docker Compose]
 featured: true
-order: 4
+order: 6
 repo: https://github.com/bjafl/homely-ha
 links:
   - label: Unofficial API documentation

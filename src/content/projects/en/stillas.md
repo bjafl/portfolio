@@ -8,11 +8,22 @@ context: work
 areas: [frontend, backend, data, devops, security]
 stack: [TypeScript, React, Vite, TanStack Router, Tailwind CSS, Fastify, PostgreSQL, Prisma, Valkey, Python, Docker Compose, Caddy, GitHub Actions, Grafana]
 featured: true
-order: 1
+order: 2
+related: [fagsystem-tillegg, fagsystem-migrering]
+service:
+  - The plan as direction, stages and next steps, in the participant's own words
+  - Participants have their plan on their phone between meetings
+  - The reports to NAV are built straight from the plan
+technical:
+  - Monorepo with two apps, a Fastify API and PostgreSQL
+  - Signed images, deploy by digest, separate monitoring
+  - Risk assessment using the Data Protection Authority and NSM methods
 draft: false
 ---
 
-## Background
+<p class="part part-service">Part 1 · For the service</p>
+
+## Follow-up as it actually happens
 
 As a job consultant in AFT (a Norwegian work preparation programme), I follow up participants on their way into work.
 Much of the job is structured conversation: mapping what a person can and wants to do, agreeing on a direction, breaking
@@ -21,7 +32,7 @@ it into steps, following up – and reporting the plan to NAV, the Norwegian lab
 Stillas brings that work into one tool, shaped by how follow-up actually happens, and puts the plan in the
 participant's pocket between meetings. The platform is in active development and is not in production use yet.
 
-## What I built
+## Two apps, two users
 
 **The counsellor app** centres on the participant's plan: *direction → stages → next steps*. Around it:
 
@@ -38,11 +49,25 @@ participant's pocket between meetings. The platform is in active development and
 steps, suggest changes and topics for the next meeting, chat with their counsellor and see appointments. It is a separate
 app rather than a restricted view, so company and admin code never ships to the participant's browser.
 
+### Professional principles in the design
+
+| Principle | In Stillas |
+| --- | --- |
+| User participation | Participants contribute between meetings, suggest changes and approve the report |
+| From problem to resource | The direction is written in the participant's own words, and assessments show what the person can and wants to do |
+| Privacy as care | Access is controlled per participant, every read is logged, and data is anonymised after the programme ends |
+
+---
+
+<p class="part part-technical">Part 2 · Under the hood</p>
+
+## Reference data
+
 **The reference data** took its own work: a Python pipeline crosswalking O\*NET to STYRK-08 (with manually reviewed
 overrides), AI-assisted translation of more than 5,200 work tasks into Norwegian in a reviewable format, and an admin tool
 for importing data from a previous system.
 
-## Architecture
+## Architecture and operations
 
 ![Architecture sketch: the counsellor app and the participant app go through a Caddy reverse proxy to a Fastify API. The API and a background sync worker use PostgreSQL, Valkey and S3-compatible storage. GitHub Actions builds, scans and signs images that are published to GHCR per commit, and a deploy webhook verifies and pulls them. A separate monitoring stack collects logs, metrics and health checks.](../../../assets/projects/stillas/architecture.svg)
 
@@ -54,7 +79,9 @@ Deployment and monitoring live in their own repositories. Images are built in CI
 commit SHA; a signed webhook verifies the signatures and pulls them – the server never builds anything. Monitoring runs
 apart from the app, so it notices even if the app goes down.
 
-**Security and privacy** were designed in from the start, since the system handles participant information:
+## Security and privacy
+
+Security and privacy were designed in from the start, since the system handles participant information:
 
 - Staff sign in with a password and two-factor authentication or with Microsoft Entra ID; participants have their own login model, with Vipps as an option.
 - Role-based access control, access to each participant based on department and assigned counsellor, and an audit log of changes and reads.

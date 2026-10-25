@@ -1,0 +1,65 @@
+hero:
+  eyebrow: Sosionom og utvikler · Sandnes
+  title: Jeg ser behovene fra innsiden, og bygger verktøyene som mangler.
+  lead: >-
+    Til daglig er jeg jobbkonsulent og fagansvarlig i AFT-teamet hos Sandnes Pro-Service. Jeg har hatt interesse og
+    teft for data fra ung alder, og lærte meg tidlig å programmere. I dag bygger jeg verktøy for arbeidet jeg selv står
+    i: fra et nettlesertillegg kollegene mine bruker hver dag, til en egen plattform for deltakeroppfølging med drift og
+    personvern bygget inn.
+  description: Sosionom og utvikler som ser behovene fra innsiden av tjenesten, og bygger verktøyene som mangler.
+
+facts:
+  - label: Kolleger som bruker tillegget
+    value: "~40"
+  - label: Av dem daglig
+    value: "~14"
+  - label: Releaser av tillegget
+    value: "50+"
+  - label: Selvlært fra ung alder
+    value: VBA → TS
+    mono: false
+
+principles:
+  - title: Brukermedvirkning
+    text: Deltakeren godkjenner rapporten til Nav før den sendes, og kan foreslå endringer i sin egen plan.
+    project: stillas
+  - title: Fra problem til ressurs
+    text: Planen bygges på det personen kan og vil, og retningen skrives i deltakerens egne ord.
+    project: stillas
+  - title: Personvern som omsorg
+    text: Automatisk anonymisering, revisjonslogg, og en egen deltaker-app som aldri får med seg admin-kode.
+    project: stillas
+  - title: Møt folk der de er
+    text: Verktøyene ligger i sidepanelet i fagsystemet kollegene allerede bruker, ikke i enda et program.
+    project: fagsystem-tillegg
+
+offer:
+  technical:
+    - title: Fullstack-utvikling
+      text: TypeScript, React og Python, fra grensesnitt til API og database.
+      projects: [stillas, e2ee-drop]
+    - title: Drift, sikkerhet og personvern
+      text: CI/CD, signerte releaser, utrulling med Intune, OAuth, kryptering og risikovurdering.
+      projects: [stillas, fagsystem-tillegg, tiny-metamcp]
+    - title: Data og integrasjon
+      text: >-
+        Migrering mellom ulike datamodeller, integrasjon mot systemer uten god dokumentasjon, og rapporter med tall
+        som kan etterprøves.
+      projects: [fagsystem-migrering, fagsystem-tillegg]
+  human:
+    - title: Brukerinnsikt fra innsiden
+      text: Jeg står selv i tjenesten, og ser behovene før de blir krav i en spesifikasjon.
+      projects: [fagsystem-tillegg, stillas]
+    - title: Samarbeid på tvers
+      text: >-
+        Flere års erfaring med veiledning, kartlegging og samarbeid mellom deltakere, arbeidsgivere, Nav og fagfolk.
+        Jeg lytter til alle sidene og finner løsninger folk kan samles om.
+    - title: Formidling til ikke-tekniske
+      text: Jeg vet hva vanlige brukere opplever som krevende, og utformer og forklarer deretter.
+      projects: [fagsystem-tillegg]
+      note: Kurs for AFT-deltakere
+    - title: Fagansvar, krav og leverandører
+      text: >-
+        Fagansvarlig i AFT-teamet, og ofte trukket inn når organisasjonen velger nye systemer og leverandører. Jeg
+        hjelper med å stille riktige krav og spørsmål før beslutningen tas.
+      about: true

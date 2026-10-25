@@ -2,15 +2,32 @@
 import { localizePath, type Locale } from '../i18n/routes';
 import { t } from '../i18n/ui';
 import { getFeatured } from '../lib/projects';
+import Icon from './Icon.astro';
 import ProjectCard from './ProjectCard.astro';
+import WorkCard from './WorkCard.astro';
 interface Props { locale: Locale }
 const { locale } = Astro.props;
-const featured = (await getFeatured(locale)).slice(0, 6);
+// Work projects get the large two-layer card; everything else is a spare-time project.
+const featured = (await getFeatured(locale)).slice(0, 8);
+const work = featured.filter((p) => p.data.context === 'work');
+const personal = featured.filter((p) => p.data.context !== 'work');
 ---
-<section aria-labelledby="featured-heading" class="mt-14">
-  <h2 id="featured-heading" class="text-2xl font-bold">{t(locale, 'section.featured')}</h2>
-  <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    {featured.map((p) => <ProjectCard project={p} locale={locale} />)}
+<section id="prosjekter" aria-labelledby="featured-heading" class="pt-20">
+  <div class="flex flex-wrap items-baseline justify-between gap-4">
+    <h2 id="featured-heading" class="text-2xl">{t(locale, 'section.featured')}</h2>
+    <a href={localizePath('projects', locale)} class="inline-flex items-center gap-1.5 font-medium">{t(locale, 'featured.all')}<Icon name="arrow-right" /></a>
   </div>
-  <p class="mt-5"><a href={localizePath('projects', locale)} class="font-semibold">{t(locale, 'featured.all')}</a></p>
+  <p class="mt-2 max-w-[62ch] text-muted-foreground">{t(locale, 'featured.intro')}</p>
+  <div class="mt-6 flex flex-col gap-4">
+    {work.map((p) => <WorkCard project={p} locale={locale} />)}
+  </div>
 </section>
+{personal.length > 0 && (
+  <section aria-labelledby="personal-heading" class="pt-16">
+    <h2 id="personal-heading" class="text-2xl">{t(locale, 'section.personal')}</h2>
+    <p class="mt-2 max-w-[62ch] text-muted-foreground">{t(locale, 'personal.intro')}</p>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {personal.map((p) => <ProjectCard project={p} locale={locale} areas={false} />)}
+    </div>
+  </section>
+)}

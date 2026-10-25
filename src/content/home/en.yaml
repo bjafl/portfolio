@@ -1,0 +1,65 @@
+hero:
+  eyebrow: Social worker and developer · Sandnes, Norway
+  title: I see the needs from the inside, and build the tools that are missing.
+  lead: >-
+    By day I am a job consultant and professional lead in the AFT team (a work preparation programme) at Sandnes
+    Pro-Service. I have had an interest in and a knack for computers since I was young, and taught myself to program
+    early on. Today I build tools for the work I do myself: from a browser extension my colleagues use every day to a
+    platform of my own for participant follow-up, with operations and privacy built in.
+  description: Social worker and developer who sees the needs from inside the service, and builds the tools that are missing.
+
+facts:
+  - label: Colleagues using the extension
+    value: "~40"
+  - label: Of them every day
+    value: "~14"
+  - label: Releases of the extension
+    value: "50+"
+  - label: Self-taught from a young age
+    value: VBA → TS
+    mono: false
+
+principles:
+  - title: User participation
+    text: The participant approves the report to NAV before it is sent, and can suggest changes to their own plan.
+    project: stillas
+  - title: From problem to resource
+    text: The plan builds on what the person can and wants to do, and the direction is written in their own words.
+    project: stillas
+  - title: Privacy as care
+    text: Automatic anonymisation, an audit log, and a separate participant app that never ships admin code.
+    project: stillas
+  - title: Meet people where they are
+    text: The tools live in a side panel next to the system colleagues already use, not in yet another program.
+    project: fagsystem-tillegg
+
+offer:
+  technical:
+    - title: Full-stack development
+      text: TypeScript, React and Python, from the interface to the API and the database.
+      projects: [stillas, e2ee-drop]
+    - title: Operations, security and privacy
+      text: CI/CD, signed releases, roll-out through Intune, OAuth, encryption and risk assessment.
+      projects: [stillas, fagsystem-tillegg, tiny-metamcp]
+    - title: Data and integration
+      text: >-
+        Migration between different data models, integration with poorly documented systems, and reports with
+        numbers that can be checked.
+      projects: [fagsystem-migrering, fagsystem-tillegg]
+  human:
+    - title: User insight from the inside
+      text: I work in the service myself, and see the needs before they become requirements in a specification.
+      projects: [fagsystem-tillegg, stillas]
+    - title: Working across disciplines
+      text: >-
+        Years of experience with guidance, assessment and collaboration between participants, employers, NAV and
+        professionals. I listen to every side and find solutions people can rally around.
+    - title: Explaining to non-technical people
+      text: I know what ordinary users find hard, and design and explain things accordingly.
+      projects: [fagsystem-tillegg]
+      note: Courses for AFT participants
+    - title: Professional lead, requirements and vendors
+      text: >-
+        Professional lead in the AFT team, and often brought in when the organisation chooses new systems and vendors.
+        I help ask the right questions and set the right requirements before the decision is made.
+      about: true

@@ -1,8 +1,19 @@
 ---
 import type { Locale } from '../i18n/routes';
 import { t } from '../i18n/ui';
+import Icon from './Icon.astro';
 interface Props { status: 'active' | 'in-use' | 'prototype' | 'archived'; locale: Locale }
 const { status, locale } = Astro.props;
-const fill = { active: 'bg-sage', 'in-use': 'bg-blue', prototype: 'bg-peach', archived: 'bg-surface border border-border' }[status];
+// Each status differs in shape as well as colour (dot, check, dashed outline, outline + check).
+const style = {
+  active: 'bg-accent text-accent-foreground',
+  'in-use': 'bg-primary text-primary-foreground',
+  prototype: 'border border-dashed border-input text-muted-foreground',
+  archived: 'border border-border text-muted-foreground',
+}[status];
 ---
-<span class={`inline-block rounded-full px-3 py-0.5 text-sm font-semibold text-ink ${fill}`}>{t(locale, `status.${status}`)}</span>
+<span class={`inline-flex h-[22px] items-center gap-1.5 rounded-full px-2 text-xs font-medium ${style}`}>
+  {status === 'active' && <span aria-hidden="true" class="size-1.5 rounded-full bg-current"></span>}
+  {(status === 'in-use' || status === 'archived') && <Icon name="check" size={12} />}
+  {t(locale, `status.${status}`)}
+</span>

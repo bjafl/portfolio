@@ -1,15 +1,18 @@
 ---
+import { getEntry } from 'astro:content';
 import FeaturedProjects from '../components/FeaturedProjects.astro';
 import Hero from '../components/Hero.astro';
-import SkillsOverview from '../components/SkillsOverview.astro';
+import Offer from '../components/Offer.astro';
+import Principles from '../components/Principles.astro';
 import Timeline from '../components/Timeline.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { t } from '../i18n/ui';
 const locale = 'nb';
+const home = (await getEntry('home', locale))!.data;
 ---
-<BaseLayout locale={locale} title={t(locale, 'hero.title')} description={t(locale, 'hero.subtitle')}>
-  <Hero locale={locale} />
-  <Timeline locale={locale} />
+<BaseLayout locale={locale} title={home.hero.title} description={home.hero.description}>
+  <Hero locale={locale} home={home} />
+  <Principles locale={locale} principles={home.principles} />
   <FeaturedProjects locale={locale} />
-  <SkillsOverview locale={locale} />
+  <Timeline locale={locale} />
+  <Offer locale={locale} offer={home.offer} />
 </BaseLayout>

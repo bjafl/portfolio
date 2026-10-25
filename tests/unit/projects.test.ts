@@ -4,7 +4,10 @@ import {
   assertLocaleParity,
   assertReferences,
   formatYearMonth,
+  formatYearRange,
   formatPeriod,
+  homeProjectSlugs,
+  homeSchema,
   localeOf,
   makeProjectSchema,
   slugOf,
@@ -85,6 +88,10 @@ describe('projectSchema', () => {
     expect(projectSchema.safeParse({ ...valid, cover: 'x.png' }).success).toBe(false);
     expect(projectSchema.safeParse({ ...valid, cover: 'x.png', coverAlt: 'a' }).success).toBe(true);
   });
+  it('accepts a bare year when the month is unknown', () => {
+    expect(projectSchema.safeParse({ ...valid, period: { start: '2025', end: '2025' } }).success).toBe(true);
+    expect(projectSchema.safeParse({ ...valid, period: { start: '25' } }).success).toBe(false);
+  });
   it('rejects summary over 200 chars', () => {
     expect(projectSchema.safeParse({ ...valid, summary: 'x'.repeat(201) }).success).toBe(false);
   });
@@ -137,6 +144,33 @@ describe('formatYearMonth / formatPeriod', () => {
   });
 });
 
+describe('formatYearRange', () => {
+  it('shows an open range, a closed range or a single year', () => {
+    expect(formatYearRange({ start: '2025-05' })).toBe('2025–');
+    expect(formatYearRange({ start: '2024-09', end: '2026-01' })).toBe('2024–2026');
+    expect(formatYearRange({ start: '2025', end: '2025' })).toBe('2025');
+  });
+  it('formatPeriod collapses an identical start and end', () => {
+    expect(formatPeriod({ start: '2025', end: '2025' }, 'nb', 'pågår')).toBe('2025');
+  });
+});
+
+describe('home', () => {
+  const home = homeSchema.parse({
+    hero: { eyebrow: 'E', title: 'T', lead: 'L', description: 'D' },
+    facts: [{ label: 'a', value: '1' }],
+    principles: [{ title: 'P', text: 'x', project: 'a' }, { title: 'Q', text: 'y' }],
+    offer: { technical: [{ title: 'O', text: 'z', projects: ['b'] }], human: [{ title: 'H', text: 'w', about: true }] },
+  });
+  it('applies defaults', () => {
+    expect(home.facts[0]!.mono).toBe(true);
+    expect(home.offer.technical[0]!.about).toBe(false);
+  });
+  it('collects every project slug the front page links to', () => {
+    expect(homeProjectSlugs(home)).toEqual(['a', 'b']);
+  });
+});
+
 describe('assertReferences', () => {
   const ids = ['nb/a', 'en/a', 'nb/b', 'en/b'];
   it('passes for known slugs, drafts included', () => {
@@ -151,6 +185,11 @@ describe('assertReferences', () => {
   it('names the unknown related slug and its source', () => {
     expect(() => assertReferences(ids, [{ id: 'nb/a', related: ['nope'] }], [])).toThrow(
       /nb\/a.*related.*"nope"/,
+    );
+  });
+  it('names an unknown slug from other sources', () => {
+    expect(() => assertReferences(ids, [], [], [{ id: 'home nb', slugs: ['a', 'gone'] }])).toThrow(
+      /home nb.*"gone"/,
     );
   });
   it('names the unknown timeline slug', () => {

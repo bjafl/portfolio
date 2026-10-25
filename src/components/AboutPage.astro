@@ -1,0 +1,61 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { localizePath, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const entry = (await getEntry('pages', `${locale}/about`))!;
+const { Content } = await render(entry);
+const { title, description, heading, lead, languages, education, now } = entry.data;
+const box = 'rounded-lg border border-border bg-card';
+const boxLabel = 'text-base tracking-[-0.01em]';
+---
+<BaseLayout locale={locale} title={title} description={description}>
+  <section class="border-b border-border pt-18 pb-12">
+    {heading && <p class="mb-5 font-mono text-xs tracking-[0.02em] text-muted-foreground">{title}</p>}
+    <h1 class="max-w-[20ch] text-[clamp(2rem,4.4vw,3rem)] leading-[1.1] tracking-[-0.035em]">{heading ?? title}</h1>
+    {lead && <p class="mt-5 max-w-[62ch] text-lg leading-relaxed text-muted-foreground">{lead}</p>}
+  </section>
+  <div class="flex flex-wrap items-start gap-12 pt-12">
+    <article class="min-w-0 max-w-[68ch] flex-[999_1_36rem]">
+      <div class="prose-case"><Content /></div>
+      {languages && languages.length > 0 && (
+        <section aria-labelledby="languages-heading" class="mt-12">
+          <h2 id="languages-heading" class="text-2xl">{t(locale, 'about.languages')}</h2>
+          <ol aria-label={t(locale, 'about.languages.label')} class="mt-4 flex flex-wrap items-center gap-2 font-mono text-[13px]">
+            {languages.map((l, i) => (
+              <>
+                {i > 0 && <li aria-hidden="true" class="text-muted-foreground">→</li>}
+                <li class={`rounded-md px-2.5 py-1 ${i === languages.length - 1 ? 'bg-accent text-accent-foreground' : 'bg-muted'}`}>{l}</li>
+              </>
+            ))}
+          </ol>
+        </section>
+      )}
+    </article>
+    <aside class="flex min-w-0 flex-[1_1_20rem] flex-col gap-6">
+      {education && education.length > 0 && (
+        <section aria-labelledby="edu-heading" class={box}>
+          <h2 id="edu-heading" class={`px-5 pt-5 pb-3 ${boxLabel}`}>{t(locale, 'about.education')}</h2>
+          <ol>
+            {education.map((e) => (
+              <li class="border-t border-border px-5 py-4">
+                <p class="flex justify-between gap-3 text-xs text-muted-foreground"><span>{e.institution}</span><span class="font-mono tabular">{e.period}</span></p>
+                <p class="mt-1 font-semibold">{e.title}</p>
+                <p class="mt-0.5 text-muted-foreground">{e.detail}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+      {now && (
+        <section aria-labelledby="now-heading" class={`${box} p-5`}>
+          <h2 id="now-heading" class="mb-2 text-xs font-normal tracking-normal text-muted-foreground">{t(locale, 'about.now')}</h2>
+          <p class="font-medium">{now}</p>
+          <p class="mt-2"><a href={localizePath('projects', locale)} class="font-medium">{t(locale, 'hero.cta')}</a></p>
+        </section>
+      )}
+    </aside>
+  </div>
+</BaseLayout>

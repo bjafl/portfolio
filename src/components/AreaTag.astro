@@ -4,6 +4,6 @@ import { areaLabel } from '../lib/areas';
 import type { Locale } from '../i18n/routes';
 interface Props { area: Area; locale: Locale; href?: string }
 const { area, locale, href } = Astro.props;
-const cls = 'inline-block rounded-full bg-blue px-3 py-0.5 text-sm font-semibold text-ink no-underline';
+const cls = 'inline-flex h-[22px] items-center rounded-full border border-border px-2 text-xs text-muted-foreground no-underline';
 ---
-{href ? <a href={href} class={cls}>{areaLabel(area, locale)}</a> : <span class={cls}>{areaLabel(area, locale)}</span>}
+{href ? <a href={href} class={`${cls} hover:bg-accent hover:text-accent-foreground hover:no-underline`}>{areaLabel(area, locale)}</a> : <span class={cls}>{areaLabel(area, locale)}</span>}

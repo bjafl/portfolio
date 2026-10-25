@@ -1,25 +1,48 @@
 entries:
-  - year: "Before 2023"
-    title: Excel, VBA and small tools at work
-    text: It started with spreadsheets and macros that saved time for me and my colleagues.
-  - year: "2020–2021"
+  - year: Early on
+    track: tech
+    title: An interest in and knack for computers
+    text: Taught myself to program, first VBA and then C#.
+  - year: "2009–2012"
+    track: tech
+    title: Science in upper secondary school
+    text: Advanced mathematics, physics and chemistry.
+  - year: "2013–2015"
+    track: tech
+    title: Cybernetics and robotics, NTNU
+    text: Computing, circuit theory, mathematics 1–3 and embedded computer systems.
+  - year: "2015–2016"
+    track: people
+    title: Professional programme in psychology, NTNU
+    text: Clinical psychology, research methods and statistics.
+  - year: "2017–2022"
+    track: tech
     title: Hobby projects on the side
-    text: Alongside work I made a C# converter from an iCloud backup to Evernote files (.enex) and fixed a bug in the open-source notes app Nomie 5, related to storing the CouchDB configuration.
+    text: A C# converter to the Evernote format, and a bug fix in the open-source notes app Nomie 5.
+  - year: "2017–2022"
+    track: people
+    title: Social work, University of Stavanger
+    text: >-
+      Bachelor's degree with a thesis on inclusion through IPS. Alongside it: milieu therapy in mental health care,
+      and a placement in child welfare services.
+  - year: "2022"
+    title: "Job consultant in AFT: the tracks meet"
+    text: Spreadsheets, macros and small scripts that save time for me and my colleagues.
   - year: "2023–2024"
-    title: Scripts and programs for production, and course material
-    text: From December 2023 I built skilt-script (Python), and from January 2024 SkiltMeny (C# and PowerShell), for daily work. I also wrote course material for Python and programming, PY-101 and PROG-101.
-  - year: "2024–2025"
-    title: IT engineering studies at UiT, alongside a full-time job
-    text: From autumn 2024 I took courses in machine learning, data structures, Linux and advanced programming, 60 ECTS credits in total of the bachelor in IT engineering.
+    title: Tools for production, and courses for participants
+    text: >-
+      A tool that turns order data from the sign production into clear Excel documents, first in Python and then in
+      C#. Programming course material for AFT participants. Autumn 2024: 30 ECTS of IT engineering at UiT, alongside a
+      full-time job.
   - year: "2025"
-    title: Browser extension, document conversion and open source
-    text: I built a Chrome extension for the case-management system PlusOffice, which we use at SPS, with its own release pipeline. I also made tools for converting documents between docx, HTML and PDF, a Home Assistant integration for the Homely alarm system, and the first version of e2ee-file-drop for end-to-end encrypted file sharing.
-    projects: [plusoffice-extension, homely]
+    title: A new case management system, and the extension that fills the gaps
+    text: >-
+      Data migration and conversion of every document template when we changed systems. The first version of the
+      browser extension in a month, alongside my job. In my spare time: homely and the first version of e2ee-drop.
+    projects: [fagsystem-migrering, fagsystem-tillegg, homely]
   - year: "2026"
     title: Stillas, full stack with its own operations
-    text: Stillas is a full-stack platform I have developed, covering the application, deployment and monitoring. It is where knowing the organisation meets what I have learned about architecture and operations.
-    projects: [stillas]
-  - year: "2026"
-    title: More tools, from AI infrastructure to interactive UI
-    text: The same year came tiny-metamcp and other MCP tools, tiptap-boost, a Tripletex integration, e2ee-drop as a full rewrite of the prototype, wheel-planner and prodimg.
-    projects: [tiny-metamcp, e2ee-drop, wheel-planner]
+    text: >-
+      Domain knowledge, architecture and operations in one platform. In my spare time: tiny-metamcp, e2ee-drop
+      rewritten, and wheel-planner.
+    projects: [stillas, tiny-metamcp, e2ee-drop, wheel-planner]

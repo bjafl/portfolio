@@ -6,34 +6,70 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { localizePath, type Locale } from '../i18n/routes';
 import { t } from '../i18n/ui';
 import { getProjects, slugOf, type ProjectEntry } from '../lib/projects';
+import AreaTag from './AreaTag.astro';
 import CaseMeta from './CaseMeta.astro';
-import ProjectCard from './ProjectCard.astro';
+import Icon from './Icon.astro';
+import StatusBadge from './StatusBadge.astro';
 interface Props { project: ProjectEntry; locale: Locale }
 const { project, locale } = Astro.props;
-const { title, summary, cover, coverAlt, related } = project.data;
-const { Content } = await render(project);
+const { title, summary, cover, coverAlt, related, status, areas, stack } = project.data;
+const { Content, headings = [] } = await render(project);
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 const published = await getProjects(locale);
 const relatedProjects = (related ?? [])
   .filter((slug) => slug !== slugOf(project.id))
   .map((slug) => published.find((p) => slugOf(p.id) === slug))
   .filter((p): p is ProjectEntry => !!p);
+const box = 'rounded-lg border border-border bg-card p-5';
+const boxLabel = 'mb-2 text-xs font-normal tracking-normal text-muted-foreground';
 ---
 <BaseLayout locale={locale} title={title} description={summary} ogType="article">
-  <article class="mx-auto max-w-3xl">
-    <h1 class="mb-6 text-4xl font-bold">{title}</h1>
-    <CaseMeta project={project} locale={locale} />
-    {cover && coverAlt && (
-      <Image src={cover as ImageMetadata} alt={coverAlt} class="mb-8 w-full rounded-[var(--radius-card)]" widths={[480, 800, 1200]} sizes="(min-width: 768px) 768px, 100vw" />
-    )}
-    <div class="prose-case"><Content /></div>
-  </article>
-  {relatedProjects.length > 0 && (
-    <section aria-labelledby="related-heading" class="mx-auto mt-12 max-w-3xl">
-      <h2 id="related-heading" class="mb-4 text-2xl font-bold">{t(locale, 'case.related')}</h2>
-      <div class="grid gap-4 sm:grid-cols-2">
-        {relatedProjects.map((p) => <ProjectCard project={p} locale={locale} />)}
+  <p class="pt-8"><a href={localizePath('projects', locale)} class="inline-flex items-center gap-1.5 text-[13px] font-medium"><Icon name="arrow-left" />{t(locale, 'case.back')}</a></p>
+  <article>
+    <header class="border-b border-border py-10">
+      <div class="flex flex-wrap items-center gap-2">
+        <StatusBadge status={status} locale={locale} />
+        {areas.map((a) => <AreaTag area={a} locale={locale} />)}
       </div>
-    </section>
-  )}
-  <p class="mx-auto mt-12 max-w-3xl"><a href={localizePath('projects', locale)}>&larr; {t(locale, 'case.back')}</a></p>
+      <h1 class="mt-5 max-w-[24ch] text-[clamp(2rem,4.6vw,3rem)] leading-[1.08] tracking-[-0.035em]">{title}</h1>
+      <p class="mt-4 max-w-[62ch] text-lg leading-relaxed text-muted-foreground">{summary}</p>
+      <CaseMeta project={project} locale={locale} />
+    </header>
+    {cover && coverAlt && (
+      <Image src={cover as ImageMetadata} alt={coverAlt} class="mt-10 w-full rounded-lg border border-border" widths={[480, 800, 1200]} sizes="(min-width: 1120px) 1072px, 100vw" />
+    )}
+    <div class="flex flex-wrap items-start gap-12 pt-12">
+      <div class="min-w-0 max-w-[68ch] flex-[999_1_36rem]"><div class="prose-case"><Content /></div></div>
+      <aside class="flex min-w-0 flex-[1_1_16rem] flex-col gap-6">
+        {toc.length > 0 && (
+          <nav aria-labelledby="toc-heading" class={box}>
+            <h2 id="toc-heading" class={boxLabel}>{t(locale, 'case.toc')}</h2>
+            <ul class="flex flex-col">
+              {toc.map((h) => (
+                <li><a href={`#${h.slug}`} class={`-mx-2 flex min-h-9 items-center rounded-md px-2 no-underline hover:bg-accent hover:text-accent-foreground hover:no-underline ${h.depth === 3 ? 'pl-5 text-muted-foreground' : 'text-foreground'}`}>{h.text}</a></li>
+              ))}
+            </ul>
+          </nav>
+        )}
+        {stack.length > 0 && (
+          <section aria-labelledby="stack-heading" class={box}>
+            <h2 id="stack-heading" class={boxLabel}>{t(locale, 'case.stack')}</h2>
+            <ul class="flex flex-wrap gap-1.5 font-mono text-xs">
+              {stack.map((s) => <li class="rounded-sm bg-muted px-2 py-0.5">{s}</li>)}
+            </ul>
+          </section>
+        )}
+        {relatedProjects.length > 0 && (
+          <section aria-labelledby="related-heading" class={box}>
+            <h2 id="related-heading" class={boxLabel}>{t(locale, 'case.related')}</h2>
+            {relatedProjects.map((p) => (
+              <article class="py-1.5">
+                <h3 class="text-sm font-medium tracking-normal"><a href={localizePath('project', locale, slugOf(p.id))}>{p.data.title}</a></h3>
+              </article>
+            ))}
+          </section>
+        )}
+      </aside>
+    </div>
+  </article>
 </BaseLayout>
